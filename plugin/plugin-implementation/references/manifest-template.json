@@ -1,0 +1,50 @@
+{
+  "name": "<vendor.plugin-name>",
+  "version": "<MAJOR.MINOR.PATCH — start at 1.0.0, or 0.x.x if this plugin is still experimental and its contract may change>",
+  "architecture": "1.2 — this is the Bonyan architecture version this plugin targets, not the Core package's own version; replace with a real value like 1.2, not this whole placeholder",
+  "description": "<one line, for humans only>",
+
+  "type": "<one of: infrastructure | product | feature | platform | transport>",
+  "adapterType": "<ONLY if type is infrastructure AND this plugin consumes an adapter, e.g. storage or auth — otherwise delete this entire field. Never set it to null or an empty string; absence means delete the key.>",
+
+  "dependencies": {
+    "required": [
+      "<vendor.other-plugin.service — cannot function without this, leave as [] (empty array, keep the key) if none>"
+    ],
+    "optional": [
+      "<vendor.other-plugin.service — works with reduced capability without this, leave as [] (empty array, keep the key) if none>"
+    ]
+  },
+
+  "provides": [
+    {
+      "name": "<vendor.this-plugin.service>",
+      "description": "<what this service does>",
+      "methods": [
+        {
+          "name": "<methodName>",
+          "description": "<what this method does>",
+          "params": [
+            { "name": "<paramName>", "type": "<free-form, JSDoc-style: string|number|boolean|EntityType|EntityType[]|... — the architecture defines no fixed type system, just be descriptive and consistent>" }
+          ],
+          "returns": "<ReturnType, same free-form convention as params>",
+          "errors": ["<ERROR_CODE_ONE>", "<ERROR_CODE_TWO>"]
+        }
+      ]
+    }
+  ],
+
+  "events": [
+    {
+      "name": "<pluginname:event-happened — past tense, no vendor segment>",
+      "description": "<when this is published>",
+      "data": [
+        { "name": "<fieldName>", "type": "<string|number|boolean>" }
+      ]
+    }
+  ],
+
+  "config": {
+    "<settingName>": "<defaultValue — leave the whole object as {} (keep the key) if this plugin has no configuration>"
+  }
+}
