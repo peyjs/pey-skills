@@ -12,6 +12,8 @@ The UI layer is not a plugin — it has no `type`, and no `provides` section, si
 {
   "name": "myapp.ui",
   "version": "1.0.0",
+  "architecture": "0.11",
+  "description": "Main application UI",
   "dependencies": {
     "required": [
       "myapp.transactions.service",
@@ -53,10 +55,29 @@ Before a component can be given access to a new service, that service must first
 
 ## UI Configuration
 
-Like a plugin, the UI has a final configuration object handed to it by the Core at startup (built from `bootstrap.json`'s `config` section, keyed by the UI's manifest name, with any `${ENV_VAR}` placeholders already resolved by the Core via EnvSource — see the project's `configuration.md`/`host.md` for the full mechanism). Only the Entry Point receives this object; no component asks the Core for it directly, for the same reason a component never asks the Core for a service (see `core-boundaries.md`).
+Like a plugin, the UI receives a final configuration object from the Core at startup — the Entry Point consumes it as **`context.config`** (already merged, with any `${ENV_VAR}` placeholders resolved), without depending on how the Core built it. Only the Entry Point receives this object; no component asks the Core for it directly, for the same reason a component never asks the Core for a service (see `core-boundaries.md`).
 
 Distribution to components follows the same pattern as service references:
 
 - The Entry Point reads whatever it needs from its configuration object at startup (e.g. feature flags, default page size, theme defaults).
 - If a component needs a specific configuration value, the Entry Point passes that value down explicitly — as a plain property/argument, the same way it hands down a service reference — rather than handing the component the whole configuration object or letting the component read from some shared global.
 - A component never imports or reads `bootstrap.json`, `process.env`, or any configuration source directly — configuration reaches a component only through what the Entry Point explicitly gave it, exactly as with services.
+
+### The `pey.webui` Kit's Shared Config
+
+The kit recognizes exactly these shared keys (defaults from `DEFAULT_UI_CONFIG` in `pey.webui/contracts`):
+
+| Key | Type | Default | Meaning |
+|---|---|---|---|
+| `theme` | `string` | `system` | Initial presentation theme. |
+| `language` | `string` | `en` | Initial locale identifier. |
+| `direction` | `ltr \| rtl \| auto` | `auto` | Initial writing direction. |
+| `fallbackPath` | `string \| null` | `null` | Optional safe navigation target; only non-empty string validation belongs to the UI. |
+| `assetBaseUrl` | `string` | `./assets` | Asset location resolved against the consuming Entry Point's `import.meta.url`. |
+
+Rules:
+
+- Only the application Entry Point reads `context.config`; components receive selected values through connection refs. There is deliberately **no `styleNonce` key**: the CSP nonce for external stylesheets reaches a component through `refs` and `stylesheetNonce()` instead (see `docs/configuration.md` in the kit).
+- **Assets resolve exclusively from `assetBaseUrl`** — never from the Router's `basePath`, `document.baseURI`, or a hardcoded path. The Entry Point normalizes `assetBaseUrl` to an absolute directory URL with exactly one trailing slash; child assets use `new URL(childPath, assetBaseUrl)`. Router `basePath` is navigation-only.
+
+References: `pey.webui/contracts` (`DEFAULT_UI_CONFIG`), `pey.webui/docs/configuration.md`, and `pey.webui/docs/decisions.md` (Configuration Contract / Module Loading).

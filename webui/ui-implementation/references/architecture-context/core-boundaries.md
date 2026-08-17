@@ -31,10 +31,12 @@ Two different things share the Event Bus:
 
 ## Entry Point Lifecycle (Startup and Shutdown)
 
+The kit implements this lifecycle in `createApplicationSetup()` (`pey.webui/shell/create-application-setup`, see `pey.webui/docs/entry-point.md`); the sequence below is the rationale behind that helper's behavior.
+
 The Entry Point has the same two-way lifecycle contract with the Core that a plugin does, adapted for the UI's role:
 
 - **Startup order:** the UI starts only after infrastructure and surviving application plugins are active — never before. This is why the Entry Point can safely assume every service in its `dependencies.required` (see `ui-manifest.md`) is already bound and callable by the time it runs.
-- **Shutdown order:** when `core:shutdown` is published, **the UI stops before any plugin shuts down** — the reverse of startup order. The Entry Point's job at this point is to release its own resources (close any open connections it holds directly, cancel timers, etc.) and to give every mounted component a chance to clean up (which happens naturally if unmounting each component correctly triggers `disconnectedCallback`, per the base class's contract in `component-basics.md`).
+- **Shutdown order:** `core:shutdown` is a **notification, not a command** — the Core then invokes the Entry Point's registered synchronous `context.onShutdown`, and that handler is where the UI performs its cleanup (releasing resources such as open connections and timers, and giving every mounted component a chance to clean up, which happens naturally if unmounting each component correctly triggers `disconnectedCallback`, per the base class's contract in `component-basics.md`). This completes **before any plugin shuts down** — the reverse of startup order.
 - The Entry Point does not need to notify the Core when it's done — the Core notifies the Entry Point through its entry point (the same notification path used for plugins), and the UI stopping is treated as complete once that path returns.
 - If the Entry Point fails at startup, the Core publishes `core:ui-failed` (not `core:plugin-failed`, since the UI is not a plugin) and the system continues without a UI — this does not block `core:ready`.
 

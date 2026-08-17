@@ -14,7 +14,7 @@ For reading data or sending a user request, the primary path is always a direct 
 
 A component never asks a registry or the Core for a service. It only ever holds whatever direct reference the UI Entry Point decided to hand it (see `core-boundaries.md`). This reference behaves like a plain object with methods — call it, get a return value or a thrown/returned standard error (see `error-structure.md`), nothing more exotic.
 
-**A component must never stash a service reference in a global, a module-level variable, or any other singleton-like location "for convenience."** The only correct place a component holds a service reference is as an instance property set from what the base class handed it during construction/connection (see `component-basics.md`). Storing it globally would let a component reach it after that component's own reference-passing step was bypassed, silently breaking the ownership boundary in `core-boundaries.md` even though the call would still technically work — this is exactly the pattern `forbidden-patterns.md` rules out.
+**A component must never stash a service reference in a global, a module-level variable, or any other singleton-like location "for convenience."** The only correct place a component holds a service reference is as a private instance field set in `onConnect(refs)` from the `refs` the base class handed it (see `component-basics.md`). Storing it globally would let a component reach it after that component's own reference-passing step was bypassed, silently breaking the ownership boundary in `core-boundaries.md` even though the call would still technically work — this is exactly the pattern `forbidden-patterns.md` rules out.
 
 ## Service Boundary (One Service vs. Several)
 

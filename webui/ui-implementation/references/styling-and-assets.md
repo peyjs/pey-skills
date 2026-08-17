@@ -4,24 +4,23 @@ Read this before writing a component's styles, adding an icon/font/image, or mak
 
 ## Styling
 
-- **Design tokens** (colors, spacing, typography, radii, shadows, etc.) are defined once as CSS Custom Properties on `:root`, in a single global tokens file. The only place visual constants are defined.
-- Components consume tokens via `var(--token-name)` across the Shadow DOM boundary. Never hardcode a color, spacing value, or font that already has a token.
-- Each component's styles live inside that component's own file, scoped by Shadow DOM. No separate global stylesheet per component, and no shared class-name convention (e.g. BEM) is needed, since Shadow DOM already prevents collisions.
-- If a new visual value is needed repeatedly, promote it to a token in the global tokens file rather than repeating it inline.
+- **Design tokens** are defined once as CSS Custom Properties on `:root` and shipped by the kit at `pey.webui/tokens.css`; components consume them via `var(--token-name)` across the Shadow DOM boundary — never hardcode a value that already has a token.
+- A component's styles belong to the component, scoped by Shadow DOM; no shared class-name convention (e.g. BEM) is needed. Small components inline `<style>` in `render()`; a nontrivial component keeps a separate CSS file loaded via `PeyElement`'s `stylesheetHref()`.
+- If a new visual value is needed repeatedly, promote it to a token rather than repeating it inline.
 
-## Assets (Icons, Fonts, Images)
+## External Stylesheets And Icons
 
-- **Icons — default: shared SVG sprite.** One sprite sheet of `<symbol>` definitions, loaded once at the app shell level, referenced from any component via `<svg><use href="#icon-name"/></svg>`. Default specifically to avoid repeating the same icon markup across many components.
-- **Icons — exception: inline SVG.** Only for a one-off icon not reused elsewhere, or an icon whose shape must change dynamically based on data (not just color/size, which tokens/CSS already handle).
-- **Fonts:** declared once via `@font-face` in the global tokens/stylesheet file, referenced everywhere through a CSS Custom Property (e.g. `--font-family-base`), never redeclared per component.
-- **Images:** stored under one fixed project-level assets folder, referenced by a stable relative path; never embed a large image as a base64 string in a template.
+Both are implemented by the kit, with contracts fixed in `pey.webui/docs/decisions.md`:
+
+- **CSS Attach Method** — a component with a separate stylesheet opts in via `PeyElement`'s `stylesheetHref()` / `stylesheetNonce()` hooks and the runtime at `pey.webui/base/attach-style-sheet`; the final attach method is preload-and-cache-`<style>`. Inlining carries a documented CSP consequence: `style-src` must permit the inlined `<style>`.
+- **Icon Sprite Contract** — default is the shared external SVG sprite, resolved exclusively from `assetBaseUrl` via `pey.webui/base/icon-sprite`; the fallback is that the Entry Point loads the sprite text once and the needed `<symbol>` is cloned into the component's Shadow DOM — never the whole sprite injected into the document. The external-reference contract stays provisional on WebKit until the engine matrix passes.
+- **Fonts and images:** declared/stored once at the project level; fonts via `@font-face` in the tokens file, never redeclared per component.
 
 ## Accessibility
 
-First-class requirement, not an afterthought — applies inside Shadow DOM the same as anywhere else:
+First-class requirement, applies inside Shadow DOM the same as anywhere else:
 
-- Use semantic HTML elements first (`<button>`, `<nav>`, `<dialog>`, etc.) before reaching for a generic `<div>` plus ARIA.
-- Any interactive element must be keyboard-operable (focusable in a sensible order, activatable via Enter/Space where applicable).
-- ARIA attributes (`role`, `aria-label`, `aria-expanded`, etc.) are added when semantic HTML alone can't express the component's state (e.g. a custom dropdown).
-- For components that trap or manage focus (modals, menus), focus must move to the component on open and return to the triggering element on close.
-- Shadow DOM does not break these requirements on modern browsers; never skip accessibility on the assumption that Shadow DOM makes it someone else's problem.
+- Use semantic HTML elements first; add ARIA only when semantics alone can't express the state.
+- Any interactive element must be keyboard-operable.
+- Components that trap/manage focus move focus in on open and back to the trigger on close.
+- Shadow DOM does not exempt a component from accessibility.

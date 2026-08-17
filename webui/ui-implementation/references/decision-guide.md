@@ -14,17 +14,17 @@ Check this first whenever it's unclear where a piece of data, a value, or a reac
    → **UI-local shared state store.** See `shared-state.md`.
 
 4. **Is it a configuration value or feature flag** (a default page size, a feature toggle, an API base URL)?
-   → **From the Entry Point, via `connect()` — never from a service call, and never from the shared state store.** Configuration is read once by the Entry Point from what the Core gave it, and handed down explicitly to whatever component needs it, the same way a service reference is handed down. See `architecture-context/ui-manifest.md` (UI Configuration).
+   → **From the Entry Point, in `refs`** — the component receives it in `onConnect(refs)`, never from a service call and never from the shared state store. Configuration is read once by the Entry Point from `context.config` and handed down explicitly to whatever component needs it, the same way a service reference is handed down. See `architecture-context/ui-manifest.md` (UI Configuration).
 
 ## How should this reaction happen?
 
-4. **Does the caller need a response** (data back, confirmation an operation succeeded, a value to use next)?
+5. **Does the caller need a response** (data back, confirmation an operation succeeded, a value to use next)?
    → **Direct service call.** This is the primary path — see `architecture-context/service-contract.md`.
 
-5. **Is this just letting other parts know something already happened, with no response expected** — and is it a **business-level fact** (a transaction was saved, an account was updated)?
+6. **Is this just letting other parts know something already happened, with no response expected** — and is it a **business-level fact** (a transaction was saved, an account was updated)?
    → That's a **domain event**, published by the *plugin* whose service handled the operation, not by the UI. A component only *listens* — see `component-basics.md` and `architecture-context/naming-conventions.md`.
 
-6. **Is this just letting other parts know something already happened, with no response expected** — and is it a **lightweight UI-only fact** (a filter changed, a panel opened, a component's own render/handler failed)?
+7. **Is this just letting other parts know something already happened, with no response expected** — and is it a **lightweight UI-only fact** (a filter changed, a panel opened, a component's own render/handler failed)?
    → **`ui:*` event on the Event Bus**, declared in the UI manifest. See `architecture-context/ui-manifest.md`.
 
 ## Quick Cross-Check
