@@ -29,7 +29,7 @@ This method set is a **formal contract, not a loose example** — the source arc
 | Geolocation | `getCurrentPosition`, `watchPosition`, `clearWatch` | Browser Geolocation, Capacitor Geolocation, Tauri geolocation |
 | Output | generate output from data | PDF, CSV, direct print |
 
-This list is not exhaustive — any dependency on external technology that might change is a candidate for an adapter of a new kind. If you need a kind not listed here, do not invent methods freely: propose the method set explicitly and report it (see Architecture Feedback Clause in `SKILL.md`) rather than assuming.
+This list is not exhaustive — any dependency on external technology that might change is a candidate for an adapter of a new kind. If you need a kind not listed here, do not invent methods freely: propose the method set explicitly and report it (see Architecture Feedback Clause in `plugin-implementation/SKILL.md`) rather than assuming.
 
 ## Adapter Rules
 
@@ -40,6 +40,6 @@ This list is not exhaustive — any dependency on external technology that might
 
 ## Adapter Security
 
-- A **storage adapter** must never persist raw, unprocessed data if the data requires protection — if encryption is needed, that responsibility must be explicit and implemented, not assumed away. **The architecture deliberately does not decide, for any given plugin, whether that plugin's data needs encryption** — this is a per-plugin decision the developer must make and document, not something to default either way. If a plugin handles data that plausibly needs encryption, document that decision explicitly in the plugin's `plugin-documentation.md` (Business Rules or Constraints section) rather than silently encrypting or silently not encrypting.
+- A **storage adapter** must never persist raw, unprocessed data if the data requires protection — if encryption is needed, that responsibility must be explicit and implemented, not assumed away. **The architecture deliberately does not decide, for any given plugin, whether that plugin's data needs encryption** — this is a per-plugin decision the developer must make and document, not something to default either way. If a plugin handles data that plausibly needs encryption, document that decision explicitly in the plugin's documentation per `plugin-documentation/SKILL.md` (Business Rules or Constraints section) rather than silently encrypting or silently not encrypting.
 - An **authentication adapter** holds login credentials securely and never transfers them to any other part of the system — credentials stay inside the adapter's boundary.
 - More generally: an adapter is a sensitive point in the system because it's where external data enters. Treat any data it handles as untrusted until validated/sanitized on the way in.

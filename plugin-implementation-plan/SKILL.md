@@ -11,7 +11,7 @@ Fill this out before writing any code, only when the task explicitly asks for a 
 - **What the Plugin Is** — one or two sentences.
 - **What the Plugin Is Not** — explicit non-goals, to prevent scope creep.
 - **Plugin Responsibilities** — bullet list, each one a single responsibility.
-- **Design Principles (Non-Negotiable)** — only principles specific to this plugin beyond the general architecture (e.g. "never stores unencrypted card numbers"). Do not restate general Bonyan rules already in `plugin-fundamentals.md`.
+- **Design Principles (Non-Negotiable)** — only principles specific to this plugin beyond the general architecture (e.g. "never stores unencrypted card numbers"). Do not restate general Bonyan rules already in `plugin-implementation/references/plugin-fundamentals.md`.
 - **Technology Constraints** — any real constraint (e.g. must run in browser only, must not exceed X ms per call).
 
 ## 2. Overview
@@ -21,7 +21,7 @@ One paragraph: what this plugin does end to end, in plain terms.
 The entities **this plugin owns or shapes** — name and shape only (field names + types), no implementation. Not the full manifest `params`/`returns` detail — just enough to recognize the entity. Don't re-describe an entity that belongs to a dependency and merely passes through unchanged — reference it by name only; its shape is that other plugin's documentation to own.
 
 ## 4. Error Management
-List only the error codes specific to this plugin (e.g. `TRANSACTION_NOT_FOUND`, `LIMIT_EXCEEDED`). Do not restate the standard error structure or the three error types — those are in `plugin-fundamentals.md`.
+List only the error codes specific to this plugin (e.g. `TRANSACTION_NOT_FOUND`, `LIMIT_EXCEEDED`). Do not restate the standard error structure or the three error types — those are in `plugin-implementation/references/plugin-fundamentals.md`.
 
 ## 5. Security
 Plugin-specific notes only: which fields/data are sensitive, which declared dependency is genuinely necessary and why. Do not restate the general security baseline.
@@ -41,13 +41,13 @@ plugin-root/
   ...
 ```
 
-**7a. Manifest Draft** — attach the actual draft `manifest.json` content here (or as a linked file), following `manifest-schema.md` / `manifest-template.json`. This is the primary review artifact — review it as a contract, not the prose above.
+**7a. Manifest Draft** — attach the actual draft `manifest.json` content here (or as a linked file), following `plugin-implementation/references/manifest-schema.md` / `plugin-implementation/references/manifest-template.json`. This is the primary review artifact — review it as a contract, not the prose above.
 
 ## 8. Documents to Be Written
 List only: filename and one-line purpose (e.g. a README, a migration note). Not the content itself.
 
 ## 9. Tests Per Part
-List only, no test code: which scenarios will be covered per file/service, referencing `testing-standard.md` categories (success path, error path, event published, dependency-unavailable path, etc.).
+List only, no test code: which scenarios will be covered per file/service, referencing `plugin-testing-standard/SKILL.md` categories (success path, error path, event published, dependency-unavailable path, etc.).
 
 ## 10. Implementation Steps
 Ordered list of what gets built in what order, file by file (e.g. "1. manifest.json → 2. storage-adapter fake for tests → 3. transactions-service.js → 4. index.js wiring → 5. tests").

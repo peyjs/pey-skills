@@ -6,7 +6,7 @@ description: Use whenever writing or reviewing JavaScript code for a Bonyan-arch
 # Coding Standards
 General coding standards for all tasks. Architecture-specific rules belong to specialized agents or task instructions.
 
-This document governs code style only. If anything here appears to conflict with a Bonyan architecture reference file (e.g. `plugin-fundamentals.md`, `adapter-contract.md`), the architecture file wins — stop and report the conflict rather than resolving it by picking one.
+This document governs code style only. If anything here appears to conflict with a Bonyan architecture reference file (e.g. `plugin-implementation/references/plugin-fundamentals.md`, `plugin-implementation/references/adapter-contract.md`), the architecture file wins — stop and report the conflict rather than resolving it by picking one.
 
 ## Module System
 - Always use ES Modules (`import` / `export`).
@@ -58,7 +58,7 @@ Rules:
 - Cleanup must happen in the appropriate lifecycle method, such as `stop`, `shutdown`, or `disconnectedCallback`.
 
 ## Error Handling
-This section covers code-level error hygiene. Any error crossing a plugin's or adapter's boundary must additionally use Bonyan's standard error structure (`code`/`message`/`source`/`type`/`timestamp`/`detail`) — see `plugin-fundamentals.md`. These two are complementary, not separate concerns: write clean, non-silent error handling in code, and shape what leaves the boundary into that structure.
+This section covers code-level error hygiene. Any error crossing a plugin's or adapter's boundary must additionally use Bonyan's standard error structure (`code`/`message`/`source`/`type`/`timestamp`/`detail`) — see `plugin-implementation/references/plugin-fundamentals.md`. These two are complementary, not separate concerns: write clean, non-silent error handling in code, and shape what leaves the boundary into that structure.
 - Never ignore errors silently.
 - Handle, log, or intentionally propagate errors.
 - Async functions that handle their own errors must use `try/catch`.

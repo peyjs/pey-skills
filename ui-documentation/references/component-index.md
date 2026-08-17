@@ -15,7 +15,7 @@ A component or page with no dedicated doc file (per `component-documentation.md`
 
 ## Route Table
 
-For every route the Entry Point's route registry maps (see `bonyan-ui/references/composition.md`): the route pattern, which page component handles it, and whether it's lazily loaded (per `bonyan-ui/references/composition.md`'s Lazy Loading section).
+For every route the Entry Point's route registry maps (see `ui-implementation/references/composition.md`): the route pattern, which page component handles it, and whether it's lazily loaded (per `ui-implementation/references/composition.md`'s Lazy Loading section).
 
 | Route Pattern | Page Component | Lazy-Loaded? |
 |---|---|---|

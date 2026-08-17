@@ -14,21 +14,21 @@ Bonyan has precise, non-obvious rules that differ from generic plugin-architectu
 
 ## Workflow
 1. **Requirements first.** If a requirements document path is given in the task, read it before anything else on this list.
-2. Read `.agents/skills/plugin/references/plugin-fundamentals.md`.
-3. **Plugin type is given in the task.** Read the matching `.agents/skills/plugin/references/plugin-types/<type>.md`. If the task doesn't state a type, ask before proceeding — never guess. If something in the task clearly contradicts the stated type (e.g. type is "feature" but the task asks for `adapterType`), do not silently reassign it or silently comply — stop and report per "Requirement vs. Architecture Conflict" below.
-4. **Modifying/refactoring an existing plugin?** Read its current `manifest.json` and code first. Preserve behavior not targeted by the task. If the change adds/removes/changes a provided service, method, event, or dependency — the plugin's contract has changed: read `.agents/skills/plugin/references/versioning.md` and bump the version accordingly (MAJOR/MINOR/PATCH). If the change is purely internal with no contract change, the manifest (beyond `version`/`description` if relevant) stays untouched.
-5. **Manifest changed or this is a new plugin?** Write/update it via `.agents/skills/plugin/references/manifest-schema.md` + `.agents/skills/plugin/references/manifest-template.json`, using `.agents/skills/plugin/references/naming-cheatsheet.md` for every name, before writing implementation code. If nothing about the contract changed, skip this step.
-6. **Plugin consumes an adapter?** Read `.agents/skills/plugin/references/adapter-contract.md` and `.agents/skills/plugin/references/core-api-reference.md` for the real Core-side wiring. Never guess a method name or signature for either — if it isn't in these files, stop and report.
+2. Read `references/plugin-fundamentals.md`.
+3. **Plugin type is given in the task.** Read the matching `references/plugin-types/<type>.md`. If the task doesn't state a type, ask before proceeding — never guess. If something in the task clearly contradicts the stated type (e.g. type is "feature" but the task asks for `adapterType`), do not silently reassign it or silently comply — stop and report per "Requirement vs. Architecture Conflict" below.
+4. **Modifying/refactoring an existing plugin?** Read its current `manifest.json` and code first. Preserve behavior not targeted by the task. If the change adds/removes/changes a provided service, method, event, or dependency — the plugin's contract has changed: read `references/versioning.md` and bump the version accordingly (MAJOR/MINOR/PATCH). If the change is purely internal with no contract change, the manifest (beyond `version`/`description` if relevant) stays untouched.
+5. **Manifest changed or this is a new plugin?** Write/update it via `references/manifest-schema.md` + `references/manifest-template.json`, using `references/naming-cheatsheet.md` for every name, before writing implementation code. If nothing about the contract changed, skip this step.
+6. **Plugin consumes an adapter?** Read `references/adapter-contract.md` and `references/core-api-reference.md` for the real Core-side wiring. Never guess a method name or signature for either — if it isn't in these files, stop and report.
 7. **Before calling the work done, validate:**
     - [ ] Every dependency actually called is declared — and nothing more.
     - [ ] `adapterType` present only if type is infrastructure.
     - [ ] No sensitive data in any event payload or error structure.
     - [ ] Every error crossing the plugin boundary uses the standard structure.
     - [ ] Manifest and code agree exactly — no `provides` entry, method, or event exists in code without being declared, and nothing declared is left unimplemented.
-    - [ ] `index.js`'s `prepare()` returns an array (even `[]` if no services) — never `undefined`/nothing; `activate()` receives only `services`, not a full context — per `core-api-reference.md`.
+    - [ ] `index.js`'s `prepare()` returns an array (even `[]` if no services) — never `undefined`/nothing; `activate()` receives only `services`, not a full context — per `references/core-api-reference.md`.
     - [ ] `onShutdown` and `onDeactivated` are assigned inside `prepare()`, never inside `activate()` — `activate()` may never run for a plugin that fails settlement/activation, silently losing hooks assigned there.
-    - [ ] If this plugin has a `required` dependency, `activate()`/`prepare()` subscribes to `core:service-unavailable` (via the saved prepare-time context) and reports a critical error if that dependency's service name appears **after this plugin is already active** — this is not automatic at runtime (it *is* automatic before group commit, during settlement — see `core-api-reference.md`).
-    - [ ] Naming follows `naming-cheatsheet.md` everywhere.
+    - [ ] If this plugin has a `required` dependency, `activate()`/`prepare()` subscribes to `core:service-unavailable` (via the saved prepare-time context) and reports a critical error if that dependency's service name appears **after this plugin is already active** — this is not automatic at runtime (it *is* automatic before group commit, during settlement — see `references/core-api-reference.md`).
+    - [ ] Naming follows `references/naming-cheatsheet.md` everywhere.
 
 ## Requirement vs. Architecture Conflict
 If a requirement conflicts with the architecture, do not silently follow the requirement and do not silently modify the architecture to fit it. Stop, report the conflict, and wait — resolving it (including any deliberate architecture change) is a decision for the human/architecture owner, not something to decide mid-implementation.

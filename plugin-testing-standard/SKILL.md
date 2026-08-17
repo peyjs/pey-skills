@@ -9,17 +9,17 @@ Read this only when a task explicitly asks for tests. No external testing tool/f
 
 ## File & Structure
 - Test file: `<subject-file-name>.test.js`, placed under `tests/`, mirroring the plugin's own source folder structure (e.g. `src/services/transactions-service.js` → `tests/services/transactions-service.test.js`). Never colocated next to the source file.
-- One test file per source file, mirroring `coding-standard.md`'s one-responsibility-per-file rule — not one per service. A service split across multiple files (e.g. `transactions-service.js` + `transactions-validator.js`) gets one test file per source file, not one combined file for the whole service.
+- One test file per source file, mirroring `plugin-coding-standard/SKILL.md`'s one-responsibility-per-file rule — not one per service. A service split across multiple files (e.g. `transactions-service.js` + `transactions-validator.js`) gets one test file per source file, not one combined file for the whole service.
 - Arrange–Act–Assert per test. Every test must run independently — no shared mutable state between tests, no reliance on execution order.
 - Test naming template: `should_<expected outcome>_when_<condition>` (e.g. `should_reject_task_creation_when_limit_exceeded`). Use this exact template for every test name, not free-form prose.
-- Async tests use `async`/`await`, never raw `.then()` chains — consistent with `coding-standard.md`.
+- Async tests use `async`/`await`, never raw `.then()` chains — consistent with `plugin-coding-standard/SKILL.md`.
 
 ## What to Fake (not deep-mock)
 
-Bonyan is built to be testable without real infrastructure (see `architecture.md` → Testability Principles). Use that, don't work around it:
+Bonyan is built to be testable without real infrastructure. Use that, don't work around it:
 
-- **Adapters** — replace with an in-memory implementation exposing the exact same method set defined in `adapter-contract.md` for that kind. Never test against the real external technology (real IndexedDB, real network, real filesystem).
-- **Other plugins' services** — a plugin never touches a Registry directly (see `core-api-reference.md`); it only ever receives a plain `services` object as the argument to `activate(services)`. So the fake is just that: a plain object with the service names your plugin declared as keys, and fake implementations as values — `{ 'vendor.other.service': { methodX: async () => {...} } }`. Don't build or mock a "Registry" abstraction; it doesn't match what your code actually touches.
+- **Adapters** — replace with an in-memory implementation exposing the exact same method set defined in `plugin-implementation/references/adapter-contract.md` for that kind. Never test against the real external technology (real IndexedDB, real network, real filesystem).
+- **Other plugins' services** — a plugin never touches a Registry directly (see `plugin-implementation/references/core-api-reference.md`); it only ever receives a plain `services` object as the argument to `activate(services)`. So the fake is just that: a plain object with the service names your plugin declared as keys, and fake implementations as values — `{ 'vendor.other.service': { methodX: async () => {...} } }`. Don't build or mock a "Registry" abstraction; it doesn't match what your code actually touches.
 - **Event Bus** — use a fake that records published events for assertion on `type`/`data` only. `id`, `source`, `timestamp` are added by the Core, not this plugin's concern to test.
 
 ## What Must Be Tested
@@ -30,7 +30,7 @@ Bonyan is built to be testable without real infrastructure (see `architecture.md
 - Every `required` dependency becoming unavailable at runtime: assert the plugin reports a critical error to the Core — not that it silently continues.
 - Every `optional` dependency absent: assert reduced-capability behavior, not a crash.
 - Module initializes correctly with valid config, and fails clearly (a structured error, not a crash) with missing required config.
-- Module releases all resources (subscriptions, listeners, timers) on shutdown — see `coding-standard.md` → Resource Management.
+- Module releases all resources (subscriptions, listeners, timers) on shutdown — see `plugin-coding-standard/SKILL.md` → Resource Management.
 
 ## Shared Contract Tests for Adapters
 Because every adapter of a kind must expose identical methods, write one shared contract test suite per kind (e.g. "storage adapter contract"), asserting only against the base methods, and run that same suite against every implementation of that kind (in-memory, real-technology-backed, etc.). Do not write separate from-scratch tests per implementation for the same behavior.
@@ -43,7 +43,7 @@ Because every adapter of a kind must expose identical methods, write one shared 
 - Multiple `assert` calls in one test are fine only if they check the same behavior from different angles; otherwise split the test.
 
 ## If a Plugin Resists This Structure
-If testing a plugin this way is impossible without spinning up the real Core or a real adapter, that is a sign of a hidden dependency in the plugin, not a reason for heavier test scaffolding. Report it per the Architecture Feedback Clause in `SKILL.md` instead of working around it.
+If testing a plugin this way is impossible without spinning up the real Core or a real adapter, that is a sign of a hidden dependency in the plugin, not a reason for heavier test scaffolding. Report it per the Architecture Feedback Clause in `plugin-implementation/SKILL.md` instead of working around it.
 
 ## Delivery Gate
 All tests must pass before the code is considered delivered. A failing test is never left for "later" or reported as a known issue alongside delivered code.

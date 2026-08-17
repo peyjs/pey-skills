@@ -1,6 +1,6 @@
 # Naming Cheatsheet (Bonyan)
 
-Normative reference. If something is not covered here, do not guess — report it per the Architecture Feedback Clause in `SKILL.md`.
+Normative reference. If something is not covered here, do not guess — report it per the Architecture Feedback Clause in `plugin-implementation/SKILL.md`.
 
 ## Format Table
 
@@ -26,7 +26,7 @@ Normative reference. If something is not covered here, do not guess — report i
 - A plugin registers a service under this name in `provides`; other plugins reference this exact string in `dependencies`.
 
 ### Service Method Names (inferred from the architecture's own example, not a directly stated rule)
-`naming.md` has no explicit rule for this; the pattern below is extracted from the one real example in `manifest.md` (`getAll`, `getById`, `create`, `update`, `delete` on a transactions service) and general `coding-standard.md` conventions:
+The architecture's naming reference has no explicit rule for this; the pattern below is extracted from the one real example in the architecture's manifest reference (`getAll`, `getById`, `create`, `update`, `delete` on a transactions service) and general `plugin-coding-standard/SKILL.md` conventions:
 - `camelCase`, verb-first: `getAll`, `create`, not `all` or `creation`.
 - Don't repeat the entity/service name in the method — it's already namespaced. `transactions.service.getAll()`, not `.getAllTransactions()`.
 - Boolean-returning methods follow the general `is`/`has`/`can` prefix rule.

@@ -14,12 +14,12 @@ This skill covers two different levels of documentation — pick the right one, 
 
 | When you're about to... | Read/update this file |
 |---|---|
-| Get oriented, or find which file to update | `references/ui-map/README.md` |
-| Add, remove, or rename a component/page, or update the route table | `references/ui-map/component-index.md` |
-| Change what the Entry Point does at startup/shutdown, or its dependencies | `references/ui-map/entry-point.md` |
-| Change the shared base class's behavior, add a shared-state key, or add/change a design token | `references/ui-map/shared-infrastructure.md` |
-| Record *why* a UX or product decision was made for the UI | `references/ui-map/decisions.md` |
-| Describe a multi-page user journey and why it's structured that way | `references/ui-map/user-flows.md` |
+| Get oriented, or find which file to update | `references/README.md` |
+| Add, remove, or rename a component/page, or update the route table | `references/component-index.md` |
+| Change what the Entry Point does at startup/shutdown, or its dependencies | `references/entry-point.md` |
+| Change the shared base class's behavior, add a shared-state key, or add/change a design token | `references/shared-infrastructure.md` |
+| Record *why* a UX or product decision was made for the UI | `references/decisions.md` |
+| Describe a multi-page user journey and why it's structured that way | `references/user-flows.md` |
 
 Each UI Map file says at its top what it covers and, just as importantly, what it explicitly does not — so content doesn't end up duplicated across two of them.
 

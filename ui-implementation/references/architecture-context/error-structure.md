@@ -15,7 +15,7 @@ Every error in Bonyan has:
 
 ## What This Means for the UI
 
-- **Never display `message` directly to the user.** It's for developers/logs. Always map `code` to a translated, user-facing string (see `forms-and-i18n.md`'s `code` → translated string → display rule).
+- **Never display `message` directly to the user.** It's for developers/logs. Always map `code` to a translated, user-facing string (see `../forms-and-i18n.md`'s `code` → translated string → display rule).
 - **Never display `detail`.** It may contain internal debugging context not meant for an end user, and must never contain sensitive data in the first place — but displaying it is not the error structure's intended use regardless.
 - **Branch logic on `code`, never on `message`.** E.g. deciding which form field to highlight, or whether to show a retry button, reads `code`.
 - **A component receiving an error from a service call is receiving an already-standardized object.** The plugin itself is responsible for converting any raw/external error into this shape before it ever reaches the UI (per `error.md`'s rule that raw errors never leak past a plugin's boundary) — the UI doesn't need to normalize anything itself, only read `code` and act on it.

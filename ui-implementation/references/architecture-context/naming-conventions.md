@@ -10,7 +10,7 @@ Format: `vendor.name` for a plugin (e.g. `myfinance.transactions`), and `vendor.
 
 Two distinct kinds, and the UI must not blur them:
 
-- **Domain events**, format `pluginname:eventname` (no vendor prefix, just the second segment), **past tense** — describing something that already happened, e.g. `transactions:saved`, `accounts:updated`. A component reacting to one of these (per `component-basics.md`/`composition.md`) always treats it as "this already happened," never as a request to do something.
+- **Domain events**, format `pluginname:eventname` (no vendor prefix, just the second segment), **past tense** — describing something that already happened, e.g. `transactions:saved`, `accounts:updated`. A component reacting to one of these (per `../component-basics.md`/`../composition.md`) always treats it as "this already happened," never as a request to do something.
 - **UI action events**, always prefixed `ui:`, describing a lightweight UI-only change — e.g. `ui:filter-changed`, `ui:panel-opened`, `ui:component-error`. Every `ui:*` event a component might ever publish must be declared once in the UI manifest (see `ui-manifest.md`) — it is never invented ad hoc inside a component file without that declaration existing.
 
 ## General Rules That Apply to UI Code Too

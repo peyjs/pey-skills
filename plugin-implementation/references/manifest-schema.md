@@ -30,7 +30,7 @@ dependencies: { required: [...service names], optional: [...service names] }
 
 A plugin may only call a service name that appears here. This list is exhaustive — no undeclared service is ever reachable, at startup or later (see `plugin-fundamentals.md` → Security Baseline).
 
-**Before declaring a `required` dependency, check the target plugin's type.** If the service belongs to a `feature`-type plugin, a `required` dependency on it is in tension with Feature's own definition (the application is supposed to work without it) — this isn't explicitly forbidden anywhere in the architecture, but it's a real inconsistency worth surfacing. Stop and report it (see "Requirement vs. Architecture Conflict" in `SKILL.md`) rather than declaring it silently.
+**Before declaring a `required` dependency, check the target plugin's type.** If the service belongs to a `feature`-type plugin, a `required` dependency on it is in tension with Feature's own definition (the application is supposed to work without it) — this isn't explicitly forbidden anywhere in the architecture, but it's a real inconsistency worth surfacing. Stop and report it (see "Requirement vs. Architecture Conflict" in `plugin-implementation/SKILL.md`) rather than declaring it silently.
 
 ## 4. Provided Services (`provides`)
 

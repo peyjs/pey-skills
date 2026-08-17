@@ -45,7 +45,7 @@ The UI layer is not a plugin — it has no `type`, and no `provides` section, si
 ```
 
 - **`dependencies.required` / `dependencies.optional`:** every service any component in the UI might need must be listed here — this is the *only* set of services the Entry Point can ever hand down to a component. A component asking for something not in this list has nothing to receive, architecturally (see `core-boundaries.md`).
-- **`events`:** every event the UI itself publishes, including every `ui:*` event any component might fire — declared once here, not per component. This must include `ui:component-error` (see `component-basics.md`) if the shared base class's error boundary is in use, which it always is per this skill's core rules.
+- **`events`:** every event the UI itself publishes, including every `ui:*` event any component might fire — declared once here, not per component. This must include `ui:component-error` (see `../component-basics.md`) if the shared base class's error boundary is in use, which it always is per this skill's core rules.
 - **No `provides` section** — the UI never provides services.
 - **No `type` field** — the UI is not a plugin.
 
