@@ -34,9 +34,20 @@
 - `plugin-implementation/references/plugin-fundamentals.md` — مبانی و قواعد کلی معماری افزونه (ساختار خطای استاندارد، انواع خطا و…)
 - `plugin-implementation/references/manifest-schema.md` و `plugin-implementation/references/manifest-template.json` — ساختار و قالب `manifest.json`
 - `plugin-implementation/references/naming-cheatsheet.md` — قواعد نام‌گذاری افزونه‌ها، سرویس‌ها و رویدادها
-- `plugin-implementation/references/adapter-contract.md` و `plugin-implementation/references/core-api-reference.md` — قرارداد adapterها و API واقعی هسته (Core)
+- `plugin-implementation/references/adapter-contract.md` — قرارداد adapterها؛ و `plugin-implementation/references/core/` (شش سند زیر) — مرجع اصلی API و رفتار هسته (Core) برای پیاده‌سازی افزونه
 - `plugin-implementation/references/plugin-types/` — انواع افزونه: `feature`، `infrastructure`، `platform`، `product`، `transport`
 - `plugin-implementation/references/versioning.md` — قواعد افزایش نسخه بر اساس تغییر قرارداد
+
+### پوشه `plugin-implementation/references/core/`
+
+سندهای مرجع هسته — مرجع اصلی استفاده از هسته هنگام پیاده‌سازی افزونه؛ در تعارض با خلاصه‌های سطح مهارت، این پوشه ملاک است (محتوای آن دست‌نخورده و معتبر نگه داشته می‌شود):
+
+- `plugin-implementation/references/core/api.md` — مرجع API هسته: ساخت `PeyCore`، `start`/`shutdown`، منابع Runtime Host، زمینه‌های `prepare`/`activate` و ماژول‌های داخلی
+- `plugin-implementation/references/core/adapters.md` — اتصال adapterها: اعلام در `bootstrap.json`، مسیریابی `adapterType` و تحویل به افزونه زیرساختی
+- `plugin-implementation/references/core/manifest-schema.md` — اسکیمای manifest افزونه و رابط کاربری + جدول قوانین اعتبارسنجی
+- `plugin-implementation/references/core/plugin-authoring.md` — راهنمای نوشتن افزونه از دید هسته (ساختار، دو فاز، هوک‌ها، پیکربندی، رویدادها)
+- `plugin-implementation/references/core/error-codes.md` — فهرست کدهای خطای هسته
+- `plugin-implementation/references/core/events.md` — فهرست رویدادهای هسته (`core:*`) و رویدادهای چرخه حیات افزونه
 
 ## مهارت‌های رابط کاربری (`ui-*`)
 
@@ -62,7 +73,7 @@
 - `ui-implementation/references/testing.md` — نمای کلی سطوح تست UI
 - `ui-implementation/references/architecture-context/` — چرا UI هرگز مستقیم به هسته دسترسی ندارد (`ui-implementation/references/architecture-context/core-boundaries.md`)، ساختار manifest رابط کاربری (`ui-implementation/references/architecture-context/ui-manifest.md`)، قرارداد سرویس (`ui-implementation/references/architecture-context/service-contract.md`)، ساختار خطای استاندارد (`ui-implementation/references/architecture-context/error-structure.md`) و قواعد نام‌گذاری (`ui-implementation/references/architecture-context/naming-conventions.md`)
 
-> برخی منابع خارج از این مخزن هستند و به همین شکل ارجاع داده می‌شوند: کیت `pey.webui` (پکیج نصب‌شده)، و مفاهیم مستقل از کیت در `core/*.md`، `router-reference.md` و `pey-router-manifest.json` (نگاه کنید به جدول «Sources — Concepts Outside The Kit» در `ui-implementation/SKILL.md`).
+> برخی منابع خارج از این مخزن هستند و به همین شکل ارجاع داده می‌شوند: کیت `pey.webui` (پکیج نصب‌شده)، و مفاهیم مستقل از کیت در `plugin-implementation/references/core/*.md`، `router-reference.md` و `pey-router-manifest.json` (نگاه کنید به جدول «Sources — Concepts Outside The Kit» در `ui-implementation/SKILL.md`).
 
 ### پوشه `ui-documentation/references/`
 

@@ -19,7 +19,7 @@ Read this only when a task explicitly asks for tests. No external testing tool/f
 Bonyan is built to be testable without real infrastructure. Use that, don't work around it:
 
 - **Adapters** — replace with an in-memory implementation exposing the exact same method set defined in `plugin-implementation/references/adapter-contract.md` for that kind. Never test against the real external technology (real IndexedDB, real network, real filesystem).
-- **Other plugins' services** — a plugin never touches a Registry directly (see `plugin-implementation/references/core-api-reference.md`); it only ever receives a plain `services` object as the argument to `activate(services)`. So the fake is just that: a plain object with the service names your plugin declared as keys, and fake implementations as values — `{ 'vendor.other.service': { methodX: async () => {...} } }`. Don't build or mock a "Registry" abstraction; it doesn't match what your code actually touches.
+- **Other plugins' services** — a plugin never touches a Registry directly (see `plugin-implementation/references/core/api.md`); it only ever receives a plain `services` object as the argument to `activate(services)`. So the fake is just that: a plain object with the service names your plugin declared as keys, and fake implementations as values — `{ 'vendor.other.service': { methodX: async () => {...} } }`. Don't build or mock a "Registry" abstraction; it doesn't match what your code actually touches.
 - **Event Bus** — use a fake that records published events for assertion on `type`/`data` only. `id`, `source`, `timestamp` are added by the Core, not this plugin's concern to test.
 
 ## What Must Be Tested

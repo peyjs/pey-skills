@@ -46,7 +46,7 @@ For every UI topic the primary, mandatory source is the kit itself — `pey.webu
 
 ## Sources — Concepts Outside The Kit
 
-These topics are kit-independent: plugin authoring, the general Core/Registry contract, and architectural rationale the kit does not ship. They live in `core/` and the untouched `references/` files.
+These topics are kit-independent: plugin authoring, the general Core/Registry contract, and architectural rationale the kit does not ship. They live in `plugin-implementation/references/core/` and the untouched `references/` files.
 
 | When you need... | Read this |
 |---|---|
@@ -57,7 +57,7 @@ These topics are kit-independent: plugin authoring, the general Core/Registry co
 | The generic UI manifest's exact structure and how the Core uses it | `references/architecture-context/ui-manifest.md` |
 | How a service call looks/behaves, and the standard error object shape | `references/architecture-context/service-contract.md`; `references/architecture-context/error-structure.md` |
 | Naming rules for plugins, services, and event types | `references/architecture-context/naming-conventions.md` |
-| Plugin authoring or other Core-level contracts | `core/*.md`; `router-reference.md`; `pey-router-manifest.json` |
+| Plugin authoring or other Core-level contracts | `plugin-implementation/references/core/*.md`; `router-reference.md`; `pey-router-manifest.json` |
 
 ## Workflow for Any UI Task
 

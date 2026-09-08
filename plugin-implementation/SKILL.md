@@ -18,8 +18,9 @@ Bonyan has precise, non-obvious rules that differ from generic plugin-architectu
 3. **Plugin type is given in the task.** Read the matching `references/plugin-types/<type>.md`. If the task doesn't state a type, ask before proceeding — never guess. If something in the task clearly contradicts the stated type (e.g. type is "feature" but the task asks for `adapterType`), do not silently reassign it or silently comply — stop and report per "Requirement vs. Architecture Conflict" below.
 4. **Modifying/refactoring an existing plugin?** Read its current `manifest.json` and code first. Preserve behavior not targeted by the task. If the change adds/removes/changes a provided service, method, event, or dependency — the plugin's contract has changed: read `references/versioning.md` and bump the version accordingly (MAJOR/MINOR/PATCH). If the change is purely internal with no contract change, the manifest (beyond `version`/`description` if relevant) stays untouched.
 5. **Manifest changed or this is a new plugin?** Write/update it via `references/manifest-schema.md` + `references/manifest-template.json`, using `references/naming-cheatsheet.md` for every name, before writing implementation code. If nothing about the contract changed, skip this step.
-6. **Plugin consumes an adapter?** Read `references/adapter-contract.md` and `references/core-api-reference.md` for the real Core-side wiring. Never guess a method name or signature for either — if it isn't in these files, stop and report.
-7. **Before calling the work done, validate:**
+6. **Plugin consumes an adapter?** Read `references/adapter-contract.md` for the adapter rules, and `references/core/adapters.md` + `references/core/api.md` — the main Core reference, authoritative over any summary — for the Core-side wiring (selection forms, injection, lifecycle, startup order). Never guess a method name or signature for either — if it isn't in these files, stop and report.
+7. **Need an exact Core code, event, or manifest validation rule?** The authority is `references/core/error-codes.md`, `references/core/events.md`, and `references/core/manifest-schema.md` — not a summary remembered from elsewhere.
+8. **Before calling the work done, validate:**
     - [ ] Every dependency actually called is declared — and nothing more.
     - [ ] `adapterType` present only if type is infrastructure.
     - [ ] No sensitive data in any event payload or error structure.
@@ -29,6 +30,8 @@ Bonyan has precise, non-obvious rules that differ from generic plugin-architectu
     - [ ] `onShutdown` and `onDeactivated` are assigned inside `prepare()`, never inside `activate()` — `activate()` may never run for a plugin that fails settlement/activation, silently losing hooks assigned there.
     - [ ] If this plugin has a `required` dependency, `activate()`/`prepare()` subscribes to `core:service-unavailable` (via the saved prepare-time context) and reports a critical error if that dependency's service name appears **after this plugin is already active** — this is not automatic at runtime (it *is* automatic before group commit, during settlement — see `references/core-api-reference.md`).
     - [ ] Naming follows `references/naming-cheatsheet.md` everywhere.
+    - [ ] Plugin code and tests import nothing from `@pey/core/*` internals and touch no `__`-prefixed runtime objects — the only Core touchpoints are the `prepare()`/`activate()` contracts above.
+    - [ ] Module state lives in module-level `let` bindings, never on `this` (`this` is `undefined` in ES module scope).
 
 ## Requirement vs. Architecture Conflict
 If a requirement conflicts with the architecture, do not silently follow the requirement and do not silently modify the architecture to fit it. Stop, report the conflict, and wait — resolving it (including any deliberate architecture change) is a decision for the human/architecture owner, not something to decide mid-implementation.

@@ -1,5 +1,7 @@
 # Core API Reference (Pey Core, 0.11 group-based startup)
 
+Scope: this file summarizes the exact 0.11 startup mechanics a plugin author needs (two-phase contract, group settlement, adapter delivery shapes, failure codes). The authoritative Core sources are `core/api.md`, `core/error-codes.md`, and `core/events.md` — where this file and those disagree on Core behavior, the `core/` files win; report the contradiction per the Architecture Feedback Clause instead of picking one silently.
+
 ## Entry Point Contract — Two-Phase
 
 `index.js` must export **two** functions: `prepare(prepareContext)` and `activate(services)`. There is no single `setup()` anymore.
