@@ -14,7 +14,7 @@ Startup itself has two architectural phases, not one, and the entry point receiv
 
 The plugin returns to the Core, at the end of preparation, the services it declared in `provides`, for registration.
 
-**First, preparation:** the plugin prepares and returns its own declared services, without calling another application-group plugin's service (it has no services yet — that's the whole point). The Core holds these in a private startup registry — internal to the Core, never queryable by any plugin, and not yet publicly available. **Second, binding + local activation:** after every plugin in the same startup group (infrastructure, or application) has finished preparing, the Core binds each surviving plugin's declared `dependencies` as direct references and the plugin performs local activation. Only after the whole group succeeds are services exposed through the public Registry and `pluginname:ready` published. A plugin is never partially available in between — it's either still preparing (not yet active) or fully active after group commit. The exact exported function names and signatures for these two phases are a contract detail — see `core/api.md` and `core/plugin-authoring.md`, not this file. Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically.
+**Group mechanics** (private startup registry, settlement, group commit, `pluginname:ready`) are Core behavior — see `core/api.md` (Behavior) and `core/plugin-authoring.md` (Entry Point). Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically. The exact exported function names and signatures for these two phases are a contract detail — see `core/api.md` and `core/plugin-authoring.md`, not this file. Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically.
 
 This entry point is a two-way contract for the plugin's entire life, not just startup:
 - The Core can tell the plugin to release resources at shutdown.
@@ -56,17 +56,7 @@ Used only to announce that something already happened. The publisher does not wa
 ```json
 { "type": "transactions:saved", "data": { "transactionId": "tx-456" } }
 ```
-**What the Core completes it into before publishing:**
-```json
-{
-  "id": "evt-123",
-  "type": "transactions:saved",
-  "source": "myfinance.transactions",
-  "data": { "transactionId": "tx-456" },
-  "timestamp": "2026-06-28T10:30:00Z"
-}
-```
-`id`, `source`, and `timestamp` are added by the Core — a plugin can never forge its own `source`. `type` and `data` are the plugin's responsibility.
+The Core adds `id`, `source` (from the manifest name — unforgeable), and `timestamp` before delivery — see `core/events.md` (Event Structure). `type` and `data` are the plugin's responsibility.
 
 **`data` field rule:** identifying information only (ids the listener can use to call a service for the full picture). Never: full entity content, lists of entities, passwords, tokens, or personal data.
 
@@ -76,24 +66,7 @@ No order is guaranteed between multiple listeners of the same event — never re
 
 ## Standard Error Structure
 
-Every error anywhere in Bonyan carries these fields:
-
-| Field | Meaning |
-|---|---|
-| `code` | Unique code for this error type — logic decisions are made on this, never on `message` text. |
-| `message` | Human-readable, for logs/debugging. |
-| `source` | Plugin/part name, `vendor.name` format. |
-| `type` | One of: `startup`, `operational`, `critical`. |
-| `timestamp` | When it occurred. |
-| `detail` | Optional extra debugging info — never sensitive data, not even here. |
-
-### The three types
-
-| Type | Occurs | Who handles it | Core's reaction |
-|---|---|---|---|
-| **Startup** | Loading a plugin (bad manifest, incompatible version, missing required dep, duplicate name) | Core | Deactivates the plugin, logs it, publishes `core:plugin-failed`. Startup of other plugins continues — unless the failing plugin is infrastructure. |
-| **Operational** | Normal runtime operation (bad input, failed operation, unavailable resource) | The plugin itself | N/A — must never leave the plugin's boundary. A service may return a standard-structured error to its caller; that is not "leaking." |
-| **Critical** | Unrecoverable (lost connection to a required service, corrupted base data, unexpected fatal failure) | Plugin reports it to the Core | Deactivates the plugin, logs it, publishes `core:plugin-crashed`. System continues, degraded. |
+Every error uses the PeyError structure (`code`, `message`, `source`, `type`, `timestamp`, optional `detail`) with one of three types (`startup`, `operational`, `critical`) — fully specified in `core/error-codes.md` (Error Structure). What the catalog does not state, and what matters at authoring time, are the rules below:
 
 ### Rules that apply everywhere
 - No raw, unstructured error ever crosses a plugin's (or adapter's) boundary — always convert to the structure above first.
