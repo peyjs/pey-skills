@@ -1,7 +1,7 @@
 {
   "name": "<vendor.plugin-name>",
   "version": "<MAJOR.MINOR.PATCH — start at 1.0.0, or 0.x.x if this plugin is still experimental and its contract may change>",
-  "architecture": "1.2 — this is the Bonyan architecture version this plugin targets, not the Core package's own version; replace with a real value like 1.2, not this whole placeholder",
+  "architecture": "0.11 — this is the Bonyan architecture version this plugin targets, not the Core package's own version; replace with a real value like 0.11, not this whole placeholder",
   "description": "<one line, for humans only>",
 
   "type": "<one of: infrastructure | product | feature | platform | transport>",

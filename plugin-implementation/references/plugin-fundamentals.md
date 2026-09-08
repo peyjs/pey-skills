@@ -4,7 +4,7 @@ Core concepts every plugin implementation must respect. Manifest structure lives
 
 ## What Is a Plugin
 
-An independent unit with exactly one manifest and one entry point. It never knows another plugin directly — it asks the Registry for a service address and calls that service directly. It has no hidden dependencies: everything it needs is declared in its manifest, which is why a correctly-built plugin can move to another project unchanged.
+An independent unit with exactly one manifest and one entry point. It never knows another plugin directly — the Core resolves its declared dependencies to direct service references, which it calls directly. It has no hidden dependencies: everything it needs is declared in its manifest, which is why a correctly-built plugin can move to another project unchanged.
 
 ## Entry Point Contract
 
@@ -14,7 +14,7 @@ Startup itself has two architectural phases, not one, and the entry point receiv
 
 The plugin returns to the Core, at the end of preparation, the services it declared in `provides`, for registration.
 
-**Group mechanics** (private startup registry, settlement, group commit, `pluginname:ready`) are Core behavior — see `core/api.md` (Behavior) and `core/plugin-authoring.md` (Entry Point). Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically. The exact exported function names and signatures for these two phases are a contract detail — see `core/api.md` and `core/plugin-authoring.md`, not this file. Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically.
+**Group mechanics** (private startup registry, settlement, group commit, `pluginname:ready`) are Core behavior — see `core/api.md` (Behavior). Note in particular: whatever a plugin needs to remember from the preparation phase (like its lifecycle hooks) has to be captured by the plugin itself, since the phases don't share an implicit context automatically.
 
 This entry point is a two-way contract for the plugin's entire life, not just startup:
 - The Core can tell the plugin to release resources at shutdown.
@@ -42,7 +42,7 @@ A service is a capability one plugin provides that others call directly and expe
 
 **A required-dependency cycle between two plugins is fine, as long as both are in the same startup group** (both infrastructure, or both in the application group — Product/Feature/Platform/Transport together). This works because of the two-phase split: both plugins finish preparing (into the private startup registry) before either one needs the other's actual reference, so binding can resolve both directions. A required cycle spanning *across* the infrastructure/application boundary is not supported.
 
-**Detecting a required dependency going unavailable at runtime — after your plugin is already active — is the plugin's own job; nothing does it automatically.** (This is different from startup: if a required dependency fails to become available *during* the startup group settlement, the Core itself cascades deactivation automatically, with reason `REQUIRED_DEPENDENCY_UNAVAILABLE` — no plugin action needed there.) But once a plugin is active, the Core only broadcasts `core:service-unavailable`; it does not track who depends on what and does not deactivate dependents for you after the fact. Subscribe to `core:service-unavailable` (during preparation, since that's when Event Bus access is available) and check `event.data.serviceName` against your own required dependencies; if it matches, call `reportCriticalError` yourself. See `core/plugin-authoring.md` (Lifecycle Hooks) and `core/api.md` for the exact call shapes and function names.
+**Detecting a required dependency going unavailable at runtime — after your plugin is already active — is the plugin's own job; nothing does it automatically.** (Startup-time cascading is automatic with reason `REQUIRED_DEPENDENCY_UNAVAILABLE` — see `core/error-codes.md`.) Subscribe to `core:service-unavailable` (during preparation, since that's when Event Bus access is available) and check `event.data.serviceName` against your own required dependencies; if it matches, call `reportCriticalError` yourself. Pattern: `core-api-reference.md` (Runtime Dependency Loss).
 
 A plugin may only call what it declared in `dependencies` and only register what it declared in `provides`. Nothing else is reachable, by design — this is the security boundary, not just a convention (see Security Baseline below).
 

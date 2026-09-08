@@ -34,7 +34,7 @@
 - `plugin-implementation/references/plugin-fundamentals.md` — مبانی و قواعد کلی معماری افزونه (ساختار خطای استاندارد، انواع خطا و…)
 - `plugin-implementation/references/manifest-schema.md` و `plugin-implementation/references/manifest-template.json` — ساختار و قالب `manifest.json`
 - `plugin-implementation/references/naming-cheatsheet.md` — قواعد نام‌گذاری افزونه‌ها، سرویس‌ها و رویدادها
-- `plugin-implementation/references/adapter-contract.md` — قرارداد adapterها؛ و `plugin-implementation/references/core/` (شش سند زیر) — مرجع اصلی API و رفتار هسته (Core) برای پیاده‌سازی افزونه
+- `plugin-implementation/references/adapter-contract.md` — قرارداد adapterها؛ و `plugin-implementation/references/core/` (سندهای زیر) — مرجع اصلی API و رفتار هسته (Core) برای پیاده‌سازی افزونه
 - `plugin-implementation/references/plugin-types/` — انواع افزونه: `feature`، `infrastructure`، `platform`، `product`، `transport`
 - `plugin-implementation/references/versioning.md` — قواعد افزایش نسخه بر اساس تغییر قرارداد
 
