@@ -16,6 +16,7 @@
 |---|---|
 | `plugin-*` | مهارت‌های سمت افزونه‌ها (کد جاوااسکریپت، manifest، adapterها) |
 | `ui-*` | مهارت‌های لایه رابط کاربری (Web Components بدون فریمورک و ابزار ساخت) |
+| بدون پیشوند | مهارت‌های عمومی مشترک میان افزونه و UI (تاریخچه تغییرات، README، سند معرفی، گیت) |
 
 ## مهارت‌های افزونه‌ها (`plugin-*`)
 
@@ -23,7 +24,7 @@
 |---|---|---|
 | `plugin-coding-standard` | `bonyan-coding-standard` | استاندارد نوشتن یا بازبینی کد جاوااسکریپت: ماژول سیستم (ESM)، نام‌گذاری، سازمان‌دهی فایل‌ها، مدیریت منابع و خطا، الگوهای async و امنیت |
 | `plugin-implementation-plan` | `bonyan-implementation-plan` | نوشتن طرح پیاده‌سازی یک افزونه **پیش از** نوشتن هر کدی — به عنوان مصنوع بازبینی |
-| `plugin-documentation` | `bonyan-plugin-documentation` | نوشتن مستندات مرجع یک افزونه تکمیل‌شده: `README.md` (ورودی کوتاه) و `reference.md` (مرجع کامل خودکفا) |
+| `plugin-documentation` | `bonyan-plugin-documentation` | نوشتن مرجع فنی یک افزونه در `docs/reference.md` (مرجع کامل و خودکفا) |
 | `plugin-implementation` | `bonyan-plugin-implementation` | پیاده‌سازی، تغییر، بازسازی یا بازبینی یک افزونه، `manifest.json`، نقطه ورود `index.js` و adapterهای مصرفی آن |
 | `plugin-testing-standard` | `bonyan-testing-standard` | نوشتن تست برای افزونه‌ها تنها با `node:test` و `node:assert` — بدون هیچ فریمورک خارجی |
 
@@ -87,12 +88,24 @@
 - `ui-documentation/references/user-flows.md` — جریان‌های کاربری چندصفحه‌ای
 - `ui-documentation/references/component-documentation.md` — قالب مستندات یک کامپوننت/صفحه (به‌صورت هم‌مکان با خود کامپوننت)
 
+## مهارت‌های عمومی
+
+مشترک میان افزونه‌ها، رابط کاربری و برنامه‌ی میزبان.
+
+| پوشه | نام مهارت | کاربرد |
+|---|---|---|
+| `changelog` | `bonyan-changelog` | ثبت هر کار انجام‌شده در `CHANGELOG.md` (فارسی، تاریخ خورشیدی) و آماده‌سازی انتشار و انتخاب نسخه |
+| `readme` | `bonyan-readme` | نوشتن و به‌روزرسانی `README.md` کوتاه فارسی پروژه |
+| `introduction` | `bonyan-introduction` | نوشتن `docs/introduction.md`: معرفی ساده‌ی پروژه و منطق آن برای همه |
+| `git-workflow` | `bonyan-git-workflow` | پیام کامیت یک‌خطی پس از هر کار؛ کامیت، تگ و push تنها با درخواست صریح |
+
 ## جریان کاری کلی
 
 1. برای **افزونه جدید**: از `plugin-implementation-plan` شروع کنید، سپس `plugin-implementation` با نوع افزونه، و در نهایت `plugin-testing-standard` و `plugin-documentation`.
 2. برای **کد جاوااسکریپت** (هر جا): `plugin-coding-standard`.
 3. برای **UI**: `ui-implementation` (با شروع از کیت `pey.webui`)، همراه `ui-coding-standard`، سپس `ui-testing-standard` و در پایان به‌روزرسانی `ui-documentation`.
 4. پس از اتمام هر کار، پیش از تحویل، تست‌ها باید پاس شوند (Deliverable Gate).
+5. سپس کار بسته می‌شود: ثبت ردیف در تاریخچه تغییرات (`changelog`)، به‌روزرسانی `readme`، `introduction` و مستندات فقط اگر کار چیزی از آن‌ها را عوض کرده، و در پایان یک پیام کامیت یک‌خطی (`git-workflow`) بدون اجرای هیچ دستور گیت.
 
 ## اصول کلیدی مشترک
 

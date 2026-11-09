@@ -67,6 +67,7 @@ These topics are kit-independent: plugin authoring, the general Core/Registry co
 4. Before finishing, check the task against `references/forbidden-patterns.md`.
 5. If the component includes a form, or displays a service-rejected error, or shows user-facing text/dates/numbers, confirm the **I18n And Formatting** source in `pey.webui/docs/public-api.md` was actually consulted — these are the most commonly skipped.
 6. **Before considering the task done, check what needs registering** — a new `ui:*` event or service dependency belongs in `ui/manifest.json`; routes are registered by the route-owning application plugin via `pey.router.service.registerRoutes()` (never in the UI manifest), and the page-loader catalog in `ui/index.js` maps each route to its page component. This step is part of finishing the task, not an optional follow-up.
+7. **Close the task** once the steps above pass: add a changelog entry per `changelog/SKILL.md`; update only what this task changed: `ui-documentation/SKILL.md` (components and UI Map), `readme/SKILL.md` (top-level files, dependencies, install/use), `introduction/SKILL.md` (behavior a reader would notice); then end the reply with the one-line commit message per `git-workflow/SKILL.md`. Run no git command unless asked.
 
 ## If a Rule Seems to Conflict With the Request
 

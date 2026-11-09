@@ -32,6 +32,10 @@ Bonyan has precise, non-obvious rules that differ from generic plugin-architectu
     - [ ] Naming follows `references/naming-cheatsheet.md` everywhere.
     - [ ] Plugin code and tests import nothing from `@pey/core/*` internals and touch no `__`-prefixed runtime objects — the only Core touchpoints are the `prepare()`/`activate()` contracts above.
     - [ ] Module state lives in module-level `let` bindings, never on `this` (`this` is `undefined` in ES module scope).
+9. **When step 8 passes, close the task:**
+    - Add a changelog entry per `changelog/SKILL.md`.
+    - Update only what this task changed: `readme/SKILL.md` (top-level files, dependencies, install/use), `plugin-documentation/SKILL.md` (contract, behavior, config, errors), `introduction/SKILL.md` (behavior a reader would notice). If the task changed none of these, leave them alone.
+    - End the reply with the one-line commit message per `git-workflow/SKILL.md`. Run no git command unless asked.
 
 ## Requirement vs. Architecture Conflict
 If a requirement conflicts with the architecture, do not silently follow the requirement and do not silently modify the architecture to fit it. Stop, report the conflict, and wait — resolving it (including any deliberate architecture change) is a decision for the human/architecture owner, not something to decide mid-implementation.
