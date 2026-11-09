@@ -53,9 +53,12 @@
 | `readme` | `bonyan-readme` | نوشتن و به‌روزرسانی `README.md` کوتاه فارسی پروژه |
 | `introduction` | `bonyan-introduction` | نوشتن `docs/introduction.md`: معرفی ساده‌ی پروژه و منطق آن برای همه |
 | `git-workflow` | `bonyan-git-workflow` | پیام کامیت یک‌خطی پس از هر کار؛ کامیت، تگ و push تنها با درخواست صریح |
+| `project-structure` | `bonyan-project-structure` | تعیین ساختار پوشه‌بندی یک پروژهٔ بنیان/پی (برنامهٔ میزبان یا یک بستهٔ مستقل مثل افزونه/کیت UI)، محل `src/host`, `src/plugins`, `src/ui`، و قاعدهٔ وابستگی واقعی برای هسته/افزونه‌های پی به‌جای کپی دستی |
+| `release-build` | `bonyan-release-build` | ساخت یا اصلاح build انتشار یک پروژه (معمولاً برنامهٔ میزبان) برای هاست استاتیک: از importmap/ESM خام دوران توسعه به یک باندل واقعی با مسیر eager کم‌فایل، بدون دست‌زدن به هسته یا افزونه‌های پی |
 
 ## جریان کاری کلی
 
+0. برای **پروژهٔ تازه** (پیش از هر افزونه یا کد UI): از `project-structure` شروع کنید تا ساختار پوشه‌بندی درست از ابتدا ساخته شود.
 1. برای **افزونه جدید**: از `plugin-implementation-plan` شروع کنید، سپس `plugin-implementation` با نوع افزونه، و در نهایت `plugin-testing-standard` و `plugin-documentation`.
 2. برای **کد جاوااسکریپت** (هر جا): `plugin-coding-standard`.
 3. برای **UI**: `ui-implementation` (با شروع از کیت `pey.webui`)، همراه `ui-coding-standard`، سپس `ui-testing-standard` و در پایان به‌روزرسانی `ui-documentation`.
