@@ -3,7 +3,7 @@ name: bonyan-npm-publish
 description: Use when asked to prepare a Bonyan-architecture plugin, pey-core, or any standalone package for publishing to npm — fixing package.json metadata, scope, the LICENSE file, and the shipped file list. Never runs the actual publish. Triggers on requests like "prepare this plugin for npm", "get this package ready to publish", "is this package publish-ready", "آماده‌ی انتشار npm کن".
 ---
 
-# npm Publish Readiness (Bonyan)
+# npm Publish (Bonyan)
 
 This skill prepares a project that is itself an installable package — a plugin, `pey-core`, or anything laid out like `project-structure/references/standalone-package-layout.md` — for an eventual `npm publish`. It never runs `npm publish`, `npm login`, `npm adduser`, or anything else that touches real npm credentials or the registry. Preparing a package and publishing it are two separate steps; publishing stays a deliberate, explicit action the person takes themselves.
 
