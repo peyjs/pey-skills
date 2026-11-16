@@ -28,8 +28,9 @@
 
 | پوشه | نام مهارت | کاربرد |
 |---|---|---|
+| `plugin-requirements` | `bonyan-plugin-requirements` | نوشتن سند نیازمندی غیرفنی یک افزونه در `docs/requirements.md`، **پیش از** هر طرح پیاده‌سازی یا کد؛ فقط رفتار و دلیل وجودی افزونه را می‌گوید، هیچ نام فنی (رویداد، متد، کد خطا، کلید پیکربندی) را ثبت نمی‌کند |
 | `plugin-coding-standard` | `bonyan-coding-standard` | استاندارد نوشتن یا بازبینی کد جاوااسکریپت: ماژول سیستم (ESM)، نام‌گذاری، سازمان‌دهی فایل‌ها، مدیریت منابع و خطا، الگوهای async و امنیت |
-| `plugin-implementation-plan` | `bonyan-implementation-plan` | نوشتن طرح پیاده‌سازی یک افزونه **پیش از** نوشتن هر کدی — به عنوان مصنوع بازبینی |
+| `plugin-implementation-plan` | `bonyan-implementation-plan` | نوشتن طرح پیاده‌سازی یک افزونه **پیش از** نوشتن هر کدی — به عنوان مصنوع بازبینی؛ نام‌های فنی (رویداد، متد، manifest) را از سند نیازمندی استخراج می‌کند |
 | `plugin-documentation` | `bonyan-plugin-documentation` | نوشتن مرجع فنی یک افزونه در `docs/reference.md` (مرجع کامل و خودکفا) |
 | `plugin-implementation` | `bonyan-plugin-implementation` | پیاده‌سازی، تغییر، بازسازی یا بازبینی یک افزونه، `manifest.json`، نقطه ورود `index.js` و adapterهای مصرفی آن |
 | `plugin-testing-standard` | `bonyan-testing-standard` | نوشتن تست برای افزونه‌ها تنها با `node:test` و `node:assert` — بدون هیچ فریمورک خارجی |
@@ -61,7 +62,7 @@
 ## جریان کاری کلی
 
 0. برای **پروژهٔ تازه** (پیش از هر افزونه یا کد UI): از `project-structure` شروع کنید تا ساختار پوشه‌بندی درست از ابتدا ساخته شود.
-1. برای **افزونه جدید**: از `plugin-implementation-plan` شروع کنید، سپس `plugin-implementation` با نوع افزونه، و در نهایت `plugin-testing-standard` و `plugin-documentation`.
+1. برای **افزونه جدید**: از `plugin-requirements` شروع کنید (سند نیازمندی غیرفنی)، سپس `plugin-implementation-plan`، سپس `plugin-implementation` با نوع افزونه، و در نهایت `plugin-testing-standard` و `plugin-documentation`.
 2. برای **کد جاوااسکریپت** (هر جا): `plugin-coding-standard`.
 3. برای **UI**: `ui-implementation` (با شروع از کیت `pey.webui`)، همراه `ui-coding-standard`، سپس `ui-testing-standard` و در پایان به‌روزرسانی `ui-documentation`.
 4. پس از اتمام هر کار، پیش از تحویل، تست‌ها باید پاس شوند (به این قاعده Deliverable Gate می‌گوییم: بدون تست سبز، کار تحویل داده نمی‌شود). وقتی چند افزونهٔ واقعی در یک اپ میزبان کنار هم قرار می‌گیرند، علاوه‌بر تست‌های جدای هر افزونه، `integration-testing` تست سیستمی/یکپارچه‌سازی را می‌نویسد.
